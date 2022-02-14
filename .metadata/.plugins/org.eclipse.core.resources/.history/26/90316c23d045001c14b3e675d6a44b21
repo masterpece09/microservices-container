@@ -1,0 +1,116 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package labs.pm.data;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+
+/**
+ *
+ * @author hp
+ */
+public class Product<T> implements Comparable<Product>, Cloneable, PrintElement {
+
+    private int id;
+    private Double price;
+    private String name;
+    public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
+    public static String static_name;
+    private T anyVariable;
+    public LocalDate bestBefore;
+
+    public Product() {
+        name = "Célestin";
+        price = Double.valueOf(500);
+    }
+
+    public void printPrice() {
+        System.out.println("Price of product " + price);
+    }
+//    public final String final_name;
+
+//    public Product(String final_name){
+//        this.final_name = final_name;
+//    }
+    
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getDiscount() {
+        //return price.multiply(DISCOUNT_RATE).setScale(2,RoundingMode.HALF_UP);
+        return Double.valueOf(1);
+    }
+
+    @Override
+    public int compareTo(Product p) {
+//        Object 
+        return name.compareTo(p.getName());
+    }
+
+    public static int compareToForFilter(Product p1, Product p2) {
+//        Object 
+        return p1.getName().compareTo(p2.getName());
+    }
+
+    @Override
+    public void printName() {
+        System.out.println("NAME ***** " + name);; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setAnyVariable(T anyVariable) {
+        this.anyVariable = anyVariable;
+    }
+
+    public T getAnyVariable() {
+        return anyVariable;
+    }
+
+    public static void initialiseName(Product p, int x) {
+        p.setName("New Name x");
+        x = 27;
+    }
+
+    public static boolean removeAdonia(Product p) {
+        return p.getName().equalsIgnoreCase("Ado");
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        Product p = (Product) obj; 
+        return name.equals(p.getName());
+    }
+
+    public LocalDate getBestBefore() {
+        return bestBefore;
+    }
+
+    public void setBestBefore(LocalDate bestBefore) {
+        this.bestBefore = bestBefore;
+    }
+}

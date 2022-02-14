@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="demo-1"/>
+<aop-project name="demo"/>
+<aop-project name="currency-excahange-service"/>
+<aop-project name="spring-cloud-config-server"/>
+<aop-project name="limits-sevice"/>
+</aop-reference-model>

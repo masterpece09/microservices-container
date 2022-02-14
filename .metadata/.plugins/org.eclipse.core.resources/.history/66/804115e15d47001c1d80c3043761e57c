@@ -1,0 +1,59 @@
+package com.in28min.webservices.restfullwebservices.user;
+
+import java.net.URI;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+
+@RestController
+public class UserRessource {
+
+	@Autowired
+	private UserDaoService services;
+	
+	@GetMapping("/users")
+	public List<User> retrieveAllUsers() {
+		return services.findAll();
+	}
+	
+	@GetMapping("/user/{id}")
+	public User retrieveUser(@PathVariable int id) {
+		User user = services.findOne(id);
+				if (user == null)
+					throw new UserNotFoundException("id - " + id);
+//				throw new Exception("__ id - " + id);
+		return user;
+	}
+	
+	@PostMapping("/users")
+	public ResponseEntity createUser(@RequestBody User user) {
+//		return services.save(user);
+		User savedUser = services.save(user);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
+		
+		return ResponseEntity.created(location).build();
+	}
+	
+	
+	@DeleteMapping("/user/{id}")
+	public String deleteUser(@PathVariable int id) {
+		String response = "";
+		if(services.delete(id)) {
+			message = "User deleted succesfully";
+		}else {
+			message = "User not found";
+		}
+		return message;
+	}
+	
+	
+}

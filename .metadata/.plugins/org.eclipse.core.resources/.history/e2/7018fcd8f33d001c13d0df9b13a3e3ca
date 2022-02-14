@@ -1,0 +1,14 @@
+package com.in28min.webservices.restfullwebservices;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("ECHO");
+		SpringApplication.run(RestfullWebServicesApplication.class, args);
+	}
+
+}

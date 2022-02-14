@@ -1,0 +1,38 @@
+package com.in28min.webservices.restfullwebservices.user;
+
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.core.LinkBuilderSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
+public class CustomResponse {
+	private String code;
+	private String message;
+	private Object object;
+	private Link link;
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public Object getObject() {
+		return object;
+	}
+	public void setObject(Object object) {
+		this.object = object;
+	}
+	public LinkBuilderSupport getLink() {
+		return link;
+	}
+	public void setLink(Link link2) {
+		this.link = link2;
+	}
+	
+}

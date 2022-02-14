@@ -1,0 +1,151 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package labs.pm.data;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.Collectors;
+import jdk.nashorn.internal.runtime.options.Option;
+
+/**
+ *
+ * @author hp
+ */
+public class ArrayManipulation {
+
+    public ArrayManipulation() {
+        int[] prime = new int[3];
+        Product[] product = {new Product(), new Product()};
+        prime[0] = 1;
+        prime[1] = 2;
+        int[] primeCopy = Arrays.copyOf(prime, 3);
+        List<Product> products = new ArrayList<>();
+        Product p1 = new Product();
+        Product p2 = new Product();
+        p2.setName("Ado");
+        p2.setBestBefore(LocalDate.parse("2019-03-29"));
+        p2.setBestBefore(LocalDate.parse("2019-03-29"));
+        p1.setBestBefore(LocalDate.parse("2031-03-29"));
+        Product p3 = new Product();
+        p3.setName("Armel");
+
+//        if(p1.equals(p2)){
+//            System.out.println("******************************************* SUPER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        }else{
+//            System.out.println("++++++++++++++++++++++++++++++++++ MINCE ++++++++++++++++++++++++++++++++++++++++++");
+//        }
+        List<Product> listProducts = Arrays.asList(product);
+        //listProducts.get(0).setName("LAURE");
+
+        List<Product> listProducts2 = List.of(p1, p2);
+        //listProducts2.get(0).setName("Ado");
+
+        System.err.println("listProducts2 " + listProducts2.get(0).getName());
+        System.err.println("listProducts " + listProducts.get(0).getName());
+
+        products.add(p1);
+        products.add(p2);
+        products.add(p3);
+
+        //Collections.sort(products);
+        Comparator<String> sortText = (p5, p6) -> p5.compareTo(p6);
+        products.removeIf(Product::removeAdonia);
+
+//        products.sort((Product o1, Product o2) -> o2.compareTo(o1));
+//        products.sort(sortText.reversed().thenComparing(sortText));
+        products.sort(Product::compareToForFilter);
+//        products.removeIf(Predicate.isEqual(new Product()));
+
+//        products.sort(new Comparator<Product>(){
+//            @Override
+//            public int compare(Product o1, Product o2) {
+//                return o2.compareTo(o1);
+//            }
+//            
+//        });
+        int x = 51;
+        products.forEach(p -> {
+            System.err.println(x + " Name **" + p.getName());
+        });
+
+        streamManipulation(products);
+
+    }
+
+    public void streamManipulation(List<Product> products) {
+        /**
+         * Stream.of(p1,p2,p3) Arrays.stream(array)
+         */
+
+        Double sum = products.stream().mapToDouble(p -> p.getPrice()).sum();
+        System.out.println("ICI le somme initial: " + sum);
+
+//        Double price = products.stream().peek((t) -> {
+//            t.setPrice(Double.valueOf(300));
+//        }).mapToDouble(p-> p.getPrice()).sum();
+//        System.out.println("ICI le somme de peek: " + price);
+//        products.stream().filter(p -> p.getPrice() > 3200).forEach(p -> System.out.println("Produit "+p.getName()));
+        products.forEach(p -> p.setPrice(new Double(300)));
+
+        sum = products.stream().mapToDouble(p -> p.getPrice()).sum();
+        System.out.println("ICI le somme final: " + sum);
+
+        Consumer<Product> productNameConsumer = p -> p.setName("----------- First Name: " + p.getName());
+        Consumer<Product> productPriceConsumer = p -> p.setPrice(p.getPrice() * 3);
+        Consumer<Product> displayProduct = p -> {
+            p.printName();
+            p.printPrice();
+        };
+
+        //products.stream().forEach(productNameConsumer.andThen(productPriceConsumer).andThen(displayProduct));
+        //Stream.flatMap permet de fusionner les stream
+        products.add(new Product());
+        products.get(products.size() - 1).setName("Armel");
+        products.get(products.size() - 1).setBestBefore(LocalDate.parse("2018-03-29"));
+        
+        products.add(new Product());
+        products.get(products.size() - 1).setName("LAURE");
+        products.get(products.size() - 1).setBestBefore(LocalDate.parse("2020-03-29"));
+//        products.stream().distinct().forEach(displayProduct);
+//        products.stream().distinct().sorted().forEach(displayProduct);
+        List<Product> noduplicate = products.stream().distinct().collect(Collectors.toList());
+        System.out.println("labs.pm.data.ArrayManipulation.streamManipulation()");
+        products.sort(Product::compareTo);
+        System.out.println("noduplicate " + noduplicate.size());
+        noduplicate.stream().dropWhile(p -> !p.getName().equals("Célestin")).forEach(displayProduct);
+        System.out.println("END noduplicate "+noduplicate.size());
+        System.out.println("labs.pm.data.ArrayManipulation.streamManipulation()");
+        //AllMatch(); AnyMatch()
+        //reduce to concatenate
+        String ch = products.stream().collect(Collectors.mapping(p -> p.getName(), Collectors.joining(", ")));
+        String ch2 = products.stream().collect(Collectors.collectingAndThen(
+                                             Collectors.averagingDouble(
+                                                        p -> p.getPrice()) , 
+                                                        c -> c.toString()));
+        System.out.println(ch );
+        System.out.println(ch2 +"/////" );
+//        Map<LocalDate, List<Product>> lists =  products.stream().collect(Collectors.groupingBy(p -> p.getBestBefore() ));
+        System.err.println("AVG IS "+ products.stream().mapToDouble(p -> p.getPrice()).average());
+//        Optional<Product> laure =  products.stream().filter(p -> p.getName().equals("LAURE")).findFirst();
+        Product laure =  products.stream().filter(p -> p.getName().equals("LAURE")).findFirst().orElse(null);
+//        System.out.println("son nom est "+laure.get().getName());
+        System.out.println("son nom est "+laure.getName());
+//        products.stream().mapToDouble(p -> p.getPrice()).average()
+        
+        
+        
+    }
+
+}

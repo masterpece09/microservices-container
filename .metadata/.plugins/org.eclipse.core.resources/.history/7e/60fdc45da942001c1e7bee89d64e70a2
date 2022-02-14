@@ -1,0 +1,10 @@
+package com.in28min.webservices.restfullwebservices.user;
+
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+public class UserRessource {
+
+	
+}

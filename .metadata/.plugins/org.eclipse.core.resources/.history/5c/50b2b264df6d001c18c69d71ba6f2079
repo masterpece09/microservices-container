@@ -1,0 +1,160 @@
+package com.in28min.webservices.restfullwebservices.user;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.in28min.webservices.restfullwebservices.user.dao.Post;
+import com.in28min.webservices.restfullwebservices.user.dao.User;
+import com.in28min.webservices.restfullwebservices.user.dao.UserDaoService;
+import com.in28min.webservices.restfullwebservices.user.service.PostServiceImpl;
+import com.in28min.webservices.restfullwebservices.user.service.UserService;
+
+
+@RestController
+public class UserRessource {
+
+	@Autowired
+	private UserDaoService services;
+	
+	@Autowired
+	private UserService customUserService;
+	
+	@Autowired
+	private PostServiceImpl postService;
+
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(new UserValidator());
+	}
+
+	@GetMapping("/users")
+	public List<User> retrieveAllUsers() {
+		return services.findAll();
+	}
+
+	@GetMapping("/user/{id}")
+	public EntityModel<User> retrieveUser(@PathVariable int id) throws Exception {
+		User user = services.findOne(id);
+		if (user == null)
+			throw new Exception("id - " + id);
+		//				throw new Exception("__ id - " + id);
+
+		EntityModel<User> model = EntityModel.of(user);
+		
+		WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		model.add(linkToUsers.withRel("all-users"));
+		
+		return model;
+	}
+
+
+	@PostMapping("/user/{id}/posts")
+	public ResponseEntity<CustomResponse> createPost(@RequestBody Post post, @PathVariable Integer userId) throws Exception {
+		CustomResponse response = new CustomResponse();
+		
+		Optional<User> user = customUserService.findUserById(userId);
+		
+		if(user.isEmpty())
+			throw new UserNotFoundException("User "+userId+" does not exist");
+		
+		
+		post.setUser(user.get());
+		post = postService.savePost(post);
+		
+		
+		response.setCode("20000");
+		response.setMessage("Post successfully created");
+		response.setObject(post);
+
+		WebMvcLinkBuilder linkToPost = linkTo(methodOn(this.getClass()).retrieveUserPosts(post.getId()));
+
+		response.setLink(linkToPost.withRel("Post"));
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
+
+		return ResponseEntity.created(location).body(response);
+	}
+
+
+	@DeleteMapping("/user/{id}")
+	public String deleteUser(@PathVariable int id) {
+		String response = "";
+		if(services.delete(id)) {
+			response = "User deleted succesfully";
+		}else {
+			response = "User not found";
+		}
+		return response;
+	}
+
+	@GetMapping("/customList")
+	public List<User> customListUser(){
+		return customUserService.listUsers();
+	}
+	
+	@GetMapping("/customDelete/{id}")
+	public void customDeleteUser(@PathVariable Integer id){
+		customUserService.deleteUser(id);
+	}
+	
+	@GetMapping("/retrive-user-post")
+	public List<Post> retrieveUserPosts(@RequestParam Integer userId) {
+		return customUserService.retrievePosts(userId);
+	}
+	
+	
+	/**
+	 * Create a User
+	 * @param user
+	 * @param bindingResult
+	 * @return
+	 * @throws Exception 
+	 */
+	@PostMapping("/user")
+	public ResponseEntity<CustomResponse> createUser(@Validated @RequestBody User user, BindingResult bindingResult) throws Exception {
+		//		return services.save(user);
+		CustomResponse response = new CustomResponse();
+		if (bindingResult.hasErrors()) {
+			response.setCode("40001");
+			String errorMessage = bindingResult.getFieldError("name").getCode();
+			response.setMessage(errorMessage);
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		User savedUser = services.save(user);
+		response.setCode("20000");
+		response.setMessage("User successfully created");
+		response.setObject(savedUser);
+
+		WebMvcLinkBuilder linkToUser = linkTo(methodOn(this.getClass()).retrieveUser(savedUser.getId()));
+
+		response.setLink(linkToUser.withRel("user"));
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
+
+		return ResponseEntity.created(location).body(response);
+	}
+
+
+}

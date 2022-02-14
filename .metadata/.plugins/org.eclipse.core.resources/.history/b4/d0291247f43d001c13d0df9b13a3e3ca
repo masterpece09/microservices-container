@@ -1,0 +1,10 @@
+package com.in28min.webservices.restfullwebservices;
+
+public class RestfullWebServicesApplication {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

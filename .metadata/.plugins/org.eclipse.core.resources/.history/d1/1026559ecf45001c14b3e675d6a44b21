@@ -1,0 +1,26 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package labs.pm.data;
+
+import java.util.logging.*;
+
+/**
+ *
+ * @author hp
+ */
+public class Test {
+    private static Logger logger = Logger.getLogger(labs.pm.data.Test.class.getName());
+    
+    public static void main(String[] args){
+        
+        try {
+            
+        } catch (Exception e) {
+            logger.log(Level.ERROR, msg, e);
+        }
+    }
+    
+}

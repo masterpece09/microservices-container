@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;restfull-web-services&apos;&#x0D;&#x0A;- Original project: &apos;restfull-web-services&apos;&#x0D;&#x0A;- Original element: &apos;restfull-web-services/src/main/java/com.in28min.webservices.restfullwebservices.post&apos;" description="Delete element" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.in28min.webservices.restfullwebservices.post" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1641624045261" subPackages="false" version="1.0"/>
+</session>

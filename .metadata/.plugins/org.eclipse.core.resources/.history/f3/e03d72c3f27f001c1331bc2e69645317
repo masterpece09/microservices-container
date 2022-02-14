@@ -1,0 +1,10 @@
+Eureka Naming server: http://localhost:8761/
+
+API-GATEWAY:  http://localhost:8765
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/EUR/to/INR/quantity/100
+
+
+
+CURRENCY-CONVERSION:  localhost:currency-conversion:8100
+
+CURRENCY-EXCHANGE:  localhost:currency-exchange:8001 , localhost:currency-exchange:8000

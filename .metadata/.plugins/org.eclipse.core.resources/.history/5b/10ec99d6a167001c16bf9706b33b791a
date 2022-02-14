@@ -1,0 +1,8 @@
+package com.in28min.webservices.restfullwebservices.user;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface class UserRepository extends JpaRepository{
+
+}
