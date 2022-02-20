@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
-<aop-project name="demo-1"/>
-<aop-project name="demo"/>
 <aop-project name="currency-excahange-service"/>
+<aop-project name="naming-server"/>
 <aop-project name="spring-cloud-config-server"/>
+<aop-project name="hello-docker"/>
 <aop-project name="limits-sevice"/>
+<aop-project name="currency-conversion-service"/>
+<aop-project name="api-gateway"/>
 </aop-reference-model>

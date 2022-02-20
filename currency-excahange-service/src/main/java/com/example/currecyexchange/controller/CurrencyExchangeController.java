@@ -29,7 +29,7 @@ public class CurrencyExchangeController {
 	public CurrencyExchange retriveExchangeValue(@PathVariable String from, @PathVariable String to){
 		
 		logger.info("retriveveExchangeValue called with {} to {} ", from, to);
-		CurrencyExchange currencyExchange = currencyExchangeRepository.findByFromAndTo(from, to);
+		CurrencyExchange currencyExchange = null; //currencyExchangeRepository.findByFromAndTo(from, to);
 		
 		
 		if(currencyExchange == null ) {

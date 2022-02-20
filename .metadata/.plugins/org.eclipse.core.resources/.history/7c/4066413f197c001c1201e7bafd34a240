@@ -1,5 +1,0 @@
-package com.in28min.microservices.currencyconversionservice.controller;
-
-public class CurrencyExchange {
-
-}
