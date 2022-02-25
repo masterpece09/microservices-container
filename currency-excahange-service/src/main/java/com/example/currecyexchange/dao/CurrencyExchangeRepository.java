@@ -8,5 +8,5 @@ import com.example.currecyexchange.Bean.CurrencyExchange;
 @Repository
 public interface CurrencyExchangeRepository extends JpaRepository<CurrencyExchange, Long> {
 
-	// public CurrencyExchange findByFromAndTo(String from, String to);
+	 public CurrencyExchange findByFromAndTo(String from, String to);
 }
