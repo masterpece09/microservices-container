@@ -11,6 +11,11 @@ services:
     depends_on: 
       - naming-server
       - openzipkin
+      - rabbitmq
+    environment:
+      RABBIT_URI: amqp://guest:gest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   naming-server:
     image: masterpece/eureka-naming-server:latest
@@ -27,6 +32,10 @@ services:
       - "9411:9411"
     networks:
       - currency-network
+    environment:
+      RABBIT_URI: amqp://guest:gest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
 
   currency-conversion:
     image: masterpece/cunrrency-conversion:1.0
@@ -38,6 +47,36 @@ services:
     depends_on: 
       - naming-server
       - openzipkin
+      - rabbitmq
+    environment:
+      RABBIT_URI: amqp://guest:gest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  api-gateway:
+    image: masterpece/api-gateway:1.0
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on: 
+      - naming-server
+      - openzipkin
+      - rabbitmq
+    environment:
+      RABBIT_URI: amqp://guest:gest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  rabbitmq:
+    image: rabbitmq:3.5.3-management
+    mem_limit: 300m
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - currency-network
 
 networks:
   currency-network:
