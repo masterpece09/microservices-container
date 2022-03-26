@@ -36,8 +36,15 @@ public class CurrencyExchangeController {
 			throw new RuntimeException("Unable to find data for " + from + " to "+ to);	
 		}
 		
+		
+		//Kubernatees
 		String port = environment.getProperty("local.server.port");
-		currencyExchange.setEnvironnement(port);
+		String host = environment.getProperty("HOSTNAME");
+		String version = "v1.0";
+		
+		
+		
+		currencyExchange.setEnvironnement(port + " " + version + " " + host);
 		
 		return currencyExchange;
 	}

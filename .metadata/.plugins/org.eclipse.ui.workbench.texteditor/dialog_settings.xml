@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="currecye"/>
+		<item key="selection" value="repli"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="repli"/>
+			<item value="rab"/>
+			<item value="zip"/>
+			<item value="eur"/>
+			<item value="&lt;dependency&gt; --&gt;"/>
+			<item value="cloud"/>
+			<item value="sle"/>
+			<item value="slu"/>
+			<item value="zipki"/>
+			<item value="netf"/>
 			<item value="currecye"/>
 			<item value="&gt;"/>
-			<item value="cloud"/>
 			<item value="hello"/>
 			<item value="hello-service"/>
 			<item value="pro"/>
-			<item value="spring"/>
-			<item value="clien"/>
-			<item value="spring-cloud-config-server"/>
-			<item value="@EnableConfigServer"/>
-			<item value="minimun"/>
-			<item value="minimum"/>
-			<item value="spring-releases"/>
-			<item value="limits-service"/>
-			<item value="LimitsSeviceApplication"/>
 		</list>
 		<list key="replacehistory">
 			<item value="minimum"/>
