@@ -27,6 +27,9 @@ spec:
       - image: masterpece/currency-conversion-k8:1.0
         imagePullPolicy: IfNotPresent
         name: currency-conversion-k8
+        env:
+          - name: CURRENCY_EXCHANGE_URI
+            value: http://currency-exchange
       restartPolicy: Always
 ---
 apiVersion: v1
