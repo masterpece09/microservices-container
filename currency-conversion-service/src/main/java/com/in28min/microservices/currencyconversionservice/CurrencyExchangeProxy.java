@@ -12,8 +12,8 @@ import com.in28min.microservices.currencyconversionservice.controller.bean.Curre
 //@FeignClient(name="currency-exchange")
 
 //CHANGE-KUBERNETES
-@FeignClient(name = "currency-exchange", url = "${CURRENCY_EXCHANGE_SERVICE_HOST:http://localhost}:8001")
-//@FeignClient(name = "currency-exchange", url = "${CURRENCY_EXCHANGE_URI:http://localhost}:8000")
+//@FeignClient(name = "currency-exchange", url = "${CURRENCY_EXCHANGE_SERVICE_HOST:http://localhost}:8001")
+@FeignClient(name = "currency-exchange", url = "${CURRENCY_EXCHANGE_URI:http://localhost}:8001")
 public interface CurrencyExchangeProxy {
 	
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")

@@ -4,18 +4,12 @@ metadata:
   annotations:
     autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"currency-exchange-k8"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"currency-exchange-k8"}]},"modified":true}'
     deployment.kubernetes.io/revision: "1"
-  creationTimestamp: "2022-03-21T05:06:29Z"
-  generation: 1
   labels:
     app: currency-exchange
   name: currency-exchange
   namespace: default
-  resourceVersion: "7956"
-  uid: 8ea6a582-ba81-41d2-8136-33dfddab7ec0
 spec:
-  progressDeadlineSeconds: 600
   replicas: 2
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: currency-exchange
@@ -26,90 +20,30 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: currency-exchange
     spec:
       containers:
       - image: masterpece/currency-exchange-k8:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: currency-exchange-k8
-        resources:
-          limits:
-            cpu: 500m
-            ephemeral-storage: 1Gi
-            memory: 2Gi
-          requests:
-            cpu: 500m
-            ephemeral-storage: 1Gi
-            memory: 2Gi
-        securityContext:
-          capabilities:
-            drop:
-            - NET_RAW
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 1
-  conditions:
-  - lastTransitionTime: "2022-03-21T05:08:09Z"
-    lastUpdateTime: "2022-03-21T05:08:09Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2022-03-21T05:06:29Z"
-    lastUpdateTime: "2022-03-21T05:08:09Z"
-    message: ReplicaSet "currency-exchange-654ffb9bf6" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 1
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
-  
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
     cloud.google.com/neg: '{"ingress":true}'
-  creationTimestamp: "2022-03-21T05:11:35Z"
-  finalizers:
-  - service.kubernetes.io/load-balancer-cleanup
   labels:
     app: currency-exchange
   name: currency-exchange
   namespace: default
-  resourceVersion: "10127"
-  uid: 6d50027e-1761-46c0-a841-6880797d35cb
 spec:
-  clusterIP: 10.49.0.85
-  clusterIPs:
-  - 10.49.0.85
-  externalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
   ports:
-  - nodePort: 32278
-    port: 8001
+  - port: 8001
     protocol: TCP
     targetPort: 8001
   selector:
     app: currency-exchange
   sessionAffinity: None
-  type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 34.66.213.14
-  
+  type: LoadBalancer 
