@@ -1,0 +1,156 @@
+*********** 20220222 Orchestration *******************
+AWS, Kubernetes
+GKE: Google kubernetes engine / GCP
+Kubernetes: ressources manager. Kubernetes - Cluster - (Master node, worker nodes)
+kukectl -- Kube controler : deploy, incrcrease onstance, deploy new version ...
+1. Create a cluster
+2. Connect to the cluster on the shell: click on connect on the UGI
+3. Get the image/create deployment; pod, replicatset: kubectl create deployment pece-hello-world --image=masterpece/hello-docker-celestin:1.0
+ReplicaSet ensures that a specified number of pod replicas are running at any given time
+Pod is a collection of containers that can run on a host
+10/03/2022 $385    --- 14-03-2022  377 $CA ----  362 $CA 17-03-2021
+4. expose deployment: kubectl expose deployment hello-docker-celestin --type=LoadBalancer --port=8181     // Expose to the outside world the deployment
+kubectl get events
+kubectl get pods
+kubectl get deployment
+kubectl get replicaset
+kubectl get service   // -feign
+kubectl get pod -o wide
+kubectl explain pod
+kubectl describe pod pod_id
+kubectl describe pod pece-hello-world1-5c46d4d787-9p4s7
+kubectl delete pod pece-hello-world1-5c46d4d787-9p4s7
+kubectl scale deployment pece-hello-world1 --replicas=3  // Increase nbr of instance/pod 
+kubectl get events --sort-by='.lastTimestamp' //// kubectl get event --sort-by=.metadata.creationTimestamp
+kubectl set image deployment pece-hello-world1[name of the deployment] hello-docker-celestin[name of the container]=DUMMY_IMAGE:1.0
+
+gcloud auth login
+kubectl version --client --output=yaml 
+kubectl get deployment currency-exchange -o yaml
+kubectl get service currency-exchange -o yaml >> service.yaml  
+kubectl get deployment currency-exchange -o yaml >> deployment.yaml
+kubectl diff -f deployment.yaml
+kubectl apply -f deployment.yaml
+kubectl get all
+kubectl logs -f pod_id
+kubectl create configmap currency-conversion --from-literal=CURRENCY_EXCHANGE_URI=http://currency-exchange    //Create cofigmap ie centralyze config
+kubectl get configmap -o yaml
+kubectl rollout history deployment currency-conversion
+>kubectl rollout undo deployment currency-conversion --to-revision=2
+Probe = sonde/sensor
+
+http://35.226.63.238:8001/actuator
+
+******************* API & services
+Cloud logging api
+stackdriver
+ Stackdriver Monitoring API 
+  Stackdriver Profiler API 
+   Error Reporting API 
+    Stackdriver API 
+
+CURRENCY_EXCHANGE_SERVICE_HOST is created because we have a service call currency_exchange  
+
+Liveness and readyness prob available in sprint boot
+http://35.226.63.238:8001/actuator
+
+
+
+************************************************ 2022-01-30 *********************************  ///
+localhost:5672 ???
+
+Webflux: Even loop
+ 
+sleuth: -------------------trace request with id on multiple services
+Java future --- CompletableFuture
+
+spring-boot:build-image -DskipTests
+mvn package -DskipTests
+docker volume prune
+docker build -t masterpece/hello-docker:1.0 .
+docker image rm -f id
+docker run -it --rm bellsoft/liberica-openjre-debian:8u272 java -version
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' a2b21600f35f --- get ip adress
+docker kill $(docker ps -q) ----- kill all
+docker login
+
+docker-compose up --- run docker
+
+Eloundou2022!Eloundou2022!Eloundou2022!Eloundou2022!Eloundou2022!
+Eloundou2022!Eloundou2022!Eloundou2022!Eloundou2022!Eloundou2022!
+
+----------- Docker
+Recommendation 2
+docker-machine restart default
+
+If you are using Window 10 and are using docker toolbox
+
+=> Use 192.168.99.100 instead of localhost.
+zipkin distributed tracing
+openfeign call rest service easily
+
+
+Note: If 192.168.99.100 does not work, you can find the IP by using the command docker-machine ip 
+docker logs -f 77afc4d8f95a
+docker run -p 5000:5000 image_to_run                 ex: docker run -p 8181:8181 masterpece/hello-docker:1.0
+docker container stop container_id
+sudo systemctl status docker
+docker search mysql
+docker image inspect bf756fb1ae65
+docker image history bf756fb1ae65
+docker container pause id   ----- docker container unpause id
+docker contaier prune: remove all stoped container
+doncker container stop id
+docker contaier kill id
+docker event	
+docker container top id
+docker stats
+docker system df
+docker build -t masterpece/api-gateway:1.0 .
+docker login
+docker tag hello-world:latest masterpece/pece-hello-repository:1.0
+docker push masterpece/pece-hello-repository:1.0
+
+
+
+***** 2022-01-08 ****
+---------------- Sprind cloud ------------------
+Config server
+Naming server (Eureka): Registration and discovery of service
+Ribon (Client side load balancing)
+Feign (Easier Rest clients)
+
+Visibility and monitoring
+Zipkin Distributed tracing
+Netflix API gateway
+***************************************************
+------------ Config server
+
+TODO create new endpoint and add redirect to apigateway
+
+circuitbreaker
+while (1) {curl'http://localhost:8000/sample-api'; sleep 5}
+
+
+"Hibernate: select currencyex0_.id as id1_0_, currencyex0_.conversion_multiple as conversi2_0_, currencyex0_.environnement as environn3_0_, currencyex0_.currency_from as currency4_0_, currencyex0_.currency_to as currency5_0_ from currency_exchange currencyex0_ where currencyex0_.currency_from=? and currencyex0_.currency_to=?"
+
+timestamp: "2022-03-29T04:08:08.238646776Z"
+
+"2022-03-29 04:08:08.233  INFO [currency-exchange,2ce3f292e6eeae62,bd20be40a071ddb2] 1 --- [nio-8001-exec-6] c.e.c.Bean.CurrencyExchange              : retriveveExchangeValue called with USD to INR "
+timestamp: "2022-03-29T04:08:08.238576019Z"
+
+Fault tolerence: Hystrix / Resilience4j
+
+************************************ 03-11-2021 *************************************************
+cours --- 12
+
+je démare mon toncat sur le port 8081
+
+Ctr1 créé une classe absente
+
+
+Spring boot auto config
+Dispatcher servlet
+MasterC1HVQUo9hCa!
+
+jdbc:h2:mem:testdb
